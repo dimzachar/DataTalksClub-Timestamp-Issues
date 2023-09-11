@@ -1,4 +1,9 @@
-from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled, NoTranscriptFound
+from youtube_transcript_api import (
+    NoTranscriptFound,
+    TranscriptsDisabled,
+    YouTubeTranscriptApi,
+)
+
 
 class ProcessingPipeline:
     """
@@ -50,29 +55,39 @@ class ProcessingPipeline:
 
         for title, video_id in matched_videos.items():
             print(title)
-            
+
             new_title = f'Timecodes for "{title}"'
             if self.github_util.is_already_processed(new_title):
                 print(f"Issue '{new_title}' has already been processed. Skipping...")
                 continue
-            
+
             print(new_title)
             video_duration = self.youtube_util.get_video_duration(video_id)
             print(f"Video duration: {video_duration} seconds")
-            
+
             chunk_size = 150 if video_duration <= 600 else 400
-            
+
             error_messages = {
                 TranscriptsDisabled: "Transcripts are disabled for the video.",
-                NoTranscriptFound: "No transcript was found in the requested language for video."
+                NoTranscriptFound: "No transcript was found in the requested language for video.",
             }
 
             try:
                 transcript = self.youtube_util.get_transcript(video_id)
-                comment_body = self.transcript_processor.process_transcript(transcript, chunk_size)
-                self.github_util.add_issue_comment_with_confirmation(new_title, comment_body)
+                comment_body = self.transcript_processor.process_transcript(
+                    transcript, chunk_size
+                )
+                self.github_util.add_issue_comment_with_confirmation(
+                    new_title, comment_body
+                )
             except (TranscriptsDisabled, NoTranscriptFound) as e:
-                print(f"Encountered an issue with the video `{video_id}`: {error_messages[type(e)]}")
-                self.github_util.add_issue_comment_with_confirmation(new_title, error_messages[type(e)])
+                print(
+                    f"Encountered an issue with the video `{video_id}`: {error_messages[type(e)]}"
+                )
+                self.github_util.add_issue_comment_with_confirmation(
+                    new_title, error_messages[type(e)]
+                )
             except Exception as e:
-                print(f"An unexpected error occurred while processing the video `{video_id}`: {e}")
+                print(
+                    f"An unexpected error occurred while processing the video `{video_id}`: {e}"
+                )

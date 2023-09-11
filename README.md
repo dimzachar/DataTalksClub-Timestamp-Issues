@@ -44,7 +44,7 @@ The script automates the process of generating timecodes for YouTube videos and 
 
 ## Requirements
 
-- Python 3.9 or higher
+- Python
 - GitHub Access Token
 - YouTube API Key
 - OpenAI API Key
@@ -82,7 +82,7 @@ You can run the script and its associated quality checks and tests using a Makef
 
 - `make test`: Run all unit tests using pytest. (TODO)
 - `make quality_checks`: Perform quality checks using isort, black, and pylint.
-- `make run`: Run tests, quality checks, and then the main script.
+- `make run`: Run quality checks, and then the main script.
 
 To run all of these sequentially, just use:
 

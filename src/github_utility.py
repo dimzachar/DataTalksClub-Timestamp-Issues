@@ -1,16 +1,17 @@
-from github import Github
 import requests
 from bs4 import BeautifulSoup
+from github import Github
+
 
 class GitHubUtility:
     """
     Utility class to interact with GitHub for specific repository operations.
     """
-    
+
     def __init__(self, access_token, repo_name):
         """
         Initialize the GitHub utility.
-        
+
         :param access_token: GitHub API access token
         :param repo_name: Name of the GitHub repository
         """
@@ -24,7 +25,7 @@ class GitHubUtility:
         """
         TODO: Use Github API instead of webscrape (??)
         Fetch video titles from GitHub issues.
-        
+
         :param page: Page number for GitHub issues pagination
         :return: List of video titles
         """
@@ -39,15 +40,21 @@ class GitHubUtility:
             return []
 
         soup = BeautifulSoup(response.content, "html.parser")
-        issue_titles = [el.text.strip() for el in soup.find_all("a", class_="Link--primary")]
-        video_titles = [title.replace("Timecodes for ", "").replace('"', '') for title in issue_titles if title.startswith("Timecodes for ")]
+        issue_titles = [
+            el.text.strip() for el in soup.find_all("a", class_="Link--primary")
+        ]
+        video_titles = [
+            title.replace("Timecodes for ", "").replace('"', '')
+            for title in issue_titles
+            if title.startswith("Timecodes for ")
+        ]
         print(f"Fetched {len(video_titles)} video titles")
         return video_titles
 
     def is_already_processed(self, issue_title):
         """
         Check if the issue has already been processed.
-        
+
         :param issue_title: Title of the issue to check
         :return: True if already processed, False otherwise
         """
@@ -62,17 +69,19 @@ class GitHubUtility:
                         self.processed_issues.add(issue_title)
                         return True
         return False
-    
-    def add_issue_comment_with_confirmation(self, issue_titles, comment_body, confirm_prompt=False):
+
+    def add_issue_comment_with_confirmation(
+        self, issue_titles, comment_body, confirm_prompt=False
+    ):
         """
         TODO: Modularize Code (??)
         Add a comment to a GitHub issue with optional confirmation.
-        
+
         :param issue_titles: List of issue titles to add comments to
         :param comment_body: Text to include in the comment
         :param confirm_prompt: Whether to prompt user for confirmation before adding comment
         """
-        print("Entering add_issue_comment_with_confirmation function") 
+        print("Entering add_issue_comment_with_confirmation function")
         issues = self.repo.get_issues(state="open")
         for issue in issues:
             print(f"Checking issue: {issue.title}")
@@ -83,7 +92,7 @@ class GitHubUtility:
                     proceed = input("\nProceed with commit? [y/N]: ")
                 else:
                     proceed = 'y'
-                
+
                 if proceed.lower() == "y":
                     issue.create_comment(comment_body)
                     print("Comment added.")

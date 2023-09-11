@@ -1,5 +1,6 @@
-from googleapiclient.discovery import build
 import isodate
+from googleapiclient.discovery import build
+
 
 class YouTubeUtility:
     """
@@ -33,9 +34,7 @@ class YouTubeUtility:
         video_info = []
         try:
             request = self.youtube.playlistItems().list(
-                part="snippet",
-                maxResults=500,
-                playlistId=self.playlist_id
+                part="snippet", maxResults=500, playlistId=self.playlist_id
             )
 
             while request:
@@ -61,12 +60,13 @@ class YouTubeUtility:
         :return: Video duration in seconds
         """
         try:
-            request = self.youtube.videos().list(
-                part="contentDetails",
-                id=video_id
-            )
+            request = self.youtube.videos().list(part="contentDetails", id=video_id)
             response = request.execute()
-            video_duration = response.get('items', [{}])[0].get('contentDetails', {}).get('duration', '')
+            video_duration = (
+                response.get('items', [{}])[0]
+                .get('contentDetails', {})
+                .get('duration', '')
+            )
             return isodate.parse_duration(video_duration).total_seconds()
         except Exception as e:
             print(f"An error occurred: {e}")

@@ -1,6 +1,7 @@
-import re
 import os
+import re
 from datetime import timedelta
+
 
 class TranscriptProcessor:
     """
@@ -36,8 +37,10 @@ class TranscriptProcessor:
         :return: Processed timestamp
         """
         prompt = f"Summarize the following in 6 words or less: '{current_text_chunk}'. Strict 6-word limit."
-        messages = [{"role": "system", "content": "You are a YouTube video creator."},
-                    {"role": "user", "content": prompt}]
+        messages = [
+            {"role": "system", "content": "You are a YouTube video creator."},
+            {"role": "user", "content": prompt},
+        ]
 
         # Query OpenAI API for text summarization
         response = self.openai.ChatCompletion.create(
@@ -50,11 +53,18 @@ class TranscriptProcessor:
             frequency_penalty=0,
             presence_penalty=0,
         )
-        
-        description = self.clean_text(response.choices[0].message['content']).rstrip('.')
+
+        description = self.clean_text(response.choices[0].message['content']).rstrip(
+            '.'
+        )
         timestamp_string = str(timedelta(seconds=int(chunk_start_time)))
-        polished_timestamp = f"{timestamp_string} - {description}".replace("\n", " ").replace('"', '').replace(" - -", " -").rstrip('.')
-        
+        polished_timestamp = (
+            f"{timestamp_string} - {description}".replace("\n", " ")
+            .replace('"', '')
+            .replace(" - -", " -")
+            .rstrip('.')
+        )
+
         return polished_timestamp
 
     def process_transcript(self, whole_transcript, chunk_size):
@@ -66,7 +76,7 @@ class TranscriptProcessor:
         :return: Processed transcript as a comment body
         """
         print("Sending data to OpenAI for processing...")
-        
+
         current_text_chunk = ""
         comment_body = []
         chunk_start_time = 0
@@ -75,18 +85,22 @@ class TranscriptProcessor:
         for current_line in whole_transcript:
             if chunk_start_time == 0:
                 chunk_start_time = current_line['start']
-            
+
             current_text_chunk += " " + current_line['text']
-            
+
             if len(' '.join(current_text_chunk).split(" ")) > chunk_size:
-                polished_timestamp = self.process_chunk(' '.join(current_text_chunk), chunk_start_time)
+                polished_timestamp = self.process_chunk(
+                    ' '.join(current_text_chunk), chunk_start_time
+                )
                 comment_body.append(polished_timestamp)
-                
+
                 chunk_start_time = 0
                 current_text_chunk = ""
-        
+
         # Save to output directory
-        with open(f"{self.output_directory}/timestamps.txt", "a", encoding="utf-8") as file:
+        with open(
+            f"{self.output_directory}/timestamps.txt", "a", encoding="utf-8"
+        ) as file:
             file.write('\n'.join(comment_body) + '\n')
 
         return '\n'.join(comment_body)

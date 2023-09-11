@@ -1,5 +1,6 @@
 test:
 	# TODO: tests
+	mkdir -p tests
 	pytest tests/
 
 quality_checks:
@@ -7,5 +8,5 @@ quality_checks:
 	black .
 	pylint --recursive=y .
 
-run: test quality_checks
+run: quality_checks
 	python main.py
