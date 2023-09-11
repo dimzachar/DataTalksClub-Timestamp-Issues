@@ -88,6 +88,7 @@ To run all of these sequentially, just use:
 
 ```bash
 make run
+```
 
 ## Cost Warning
 
