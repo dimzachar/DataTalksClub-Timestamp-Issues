@@ -1,0 +1,32 @@
+{
+    "base_url": "https://github.com",
+    "repositories": [
+        {
+            "organization": "DataTalksClub",
+            "repo_name": "data-engineering-zoomcamp",
+            "playlist_urls": [
+                "PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb",
+                "PL3MmuxUbc_hKVX8VnwWCPaWlIHf1qmg8s",
+                "PL3MmuxUbc_hJjEePXIdE-LVUx_1ZZjYGW"
+            ]
+        },
+        {
+            "organization": "DataTalksClub",
+            "repo_name": "machine-learning-zoomcamp",
+            "playlist_urls": [
+                "PL3MmuxUbc_hL5QBBEyKUXKuTNx-3cTpKs",
+                "PL3MmuxUbc_hL4Gx-wzOJMT4q1K-cArKqu",
+                "PL3MmuxUbc_hIhxl5Ji8t4O6lPAOpHaCLR"
+            ]
+        },
+        {
+            "organization": "DataTalksClub",
+            "repo_name": "mlops-zoomcamp",
+            "playlist_urls": [
+                "PL3MmuxUbc_hLG1MoGNxJ9DmQSSM2bEdQT",
+                "PL3MmuxUbc_hKqamJqQ7Ew8HxptJYnXqQM",
+                "PL3MmuxUbc_hIUISrluw_A7wDSmfOhErJK"
+            ]
+        }
+    ]
+}

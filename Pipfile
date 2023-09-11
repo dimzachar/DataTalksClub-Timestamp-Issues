@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+requests = "*"
+pandas = "*"
+python-dotenv = "*"
+openai = "*"
+beautifulsoup4 = "*"
+PyGithub = "*"
+google-api-python-client = "*"
+youtube_transcript_api = "*"
+isodate = "*"
+
+[dev-packages]
+pytest = "*"
+pylint = "*"
+black = "*"
+isort = "*"
+
+[requires]
+python_version = "3.9"
