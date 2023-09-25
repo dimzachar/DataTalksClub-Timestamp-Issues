@@ -1,5 +1,7 @@
 # DataTalksClub Timestamp Issues
 
+https://github.com/dimzachar/DataTalksClub-Timestamp-Issues/assets/113017737/d8a1276f-4b4f-42a9-b3e0-39e67a7e1815
+
 ## Description
 
 This project automates the process of extracting transcripts from YouTube playlist videos that correspond to GitHub issues. It processes the transcripts to create timestamps and automatically adds them as comments to the relevant GitHub issues.
